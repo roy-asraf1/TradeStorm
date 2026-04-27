@@ -1,11 +1,31 @@
-# EKS-Trade
+# TradeStorm
 
 > A single-file Terraform stack that deploys the Dynatrace **EasyTrade** demo on AWS EKS — backed by a managed **RDS SQL Server**, observable via CloudWatch, and reskinned with a custom CSS overlay served from an nginx sub_filter sidecar. End-to-end reproducible from one `terraform apply`.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Terraform](https://img.shields.io/badge/Terraform-1.5%2B-7B42BC?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-us--east--1-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-1.34-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![SQL Server](https://img.shields.io/badge/SQL_Server-2022_Express-CC2927?logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+
+---
+
+## What's in this repository (and what isn't)
+
+This repo is **infrastructure-as-code only**. It contains:
+
+- `main.tf` — the Terraform stack (the work authored here)
+- `README.md` — this file
+- `LICENSE` — MIT, covers the Terraform code only
+- `.gitignore`, `.terraform.lock.hcl` — supporting files
+
+It does **not** contain:
+
+- The **EasyTrade** application source, container images, or Helm chart — those are owned by **Dynatrace** and pulled at deploy time from their public OCI registry (`oci://europe-docker.pkg.dev/dynatrace-demoability/helm`). Nothing of theirs is redistributed through this repo.
+- **SQL Server** — provisioned through AWS RDS license-included; not redistributed here.
+- Any **Terraform state** — `terraform.tfstate*` is gitignored because it contains generated secrets (RDS password, ARNs).
+
+When you run `terraform apply`, the chart and all upstream images are downloaded directly from their original sources to your cluster.
 
 ---
 
@@ -113,8 +133,8 @@ data "aws_subnets" "private" {
 ### Step 4 — Clone the repo
 
 ```bash
-git clone <this-repo-url> EKS-Trade
-cd EKS-Trade
+git clone https://github.com/roy-asraf1/TradeStorm.git
+cd TradeStorm
 ```
 
 ### Step 5 — Verify line endings
@@ -496,6 +516,7 @@ You're targeting an account/region without the `np-lab` VPC. Edit `main.tf` line
 │                          #            RDS, schema-init Job, secret patch,
 │                          #            skin proxy. ~430 lines.
 ├── README.md              # You are here.
+├── LICENSE                # MIT — covers the Terraform code in this repo only.
 ├── .gitignore             # Excludes tfstate, tfvars, .terraform/, .claude/
 └── .terraform.lock.hcl    # Provider version pins (committed for reproducibility)
 ```
@@ -535,3 +556,21 @@ The custom theme has zero coupling to EasyTrade's source. No image rebuild, no J
 ### 7. Single file, no modules
 
 Everything lives in **one `main.tf`**. No modules, no remote state, no glue scripts, no `for_each` over imaginary environments. Read it top to bottom and you'll know exactly what the cluster looks like. When something breaks, there's exactly one file to grep.
+
+---
+
+## License & Attributions
+
+The Terraform code in this repository (`main.tf` and supporting files) is released under the **MIT License** — see [LICENSE](LICENSE).
+
+The MIT grant covers only the IaC authored here. It does **not** extend to anything pulled in at deploy time:
+
+| Component | Owner / License | How it's used here |
+|---|---|---|
+| **EasyTrade** application & Helm chart | © Dynatrace LLC | Pulled at deploy time from `oci://europe-docker.pkg.dev/dynatrace-demoability/helm`. Not redistributed by this repository. |
+| **SQL Server 2022 Express** | © Microsoft Corporation | Provisioned via AWS RDS license-included. Not redistributed by this repository. |
+| **AWS Load Balancer Controller, EKS Blueprints Addons, kube-proxy, etc.** | Apache 2.0 / MIT (community / AWS) | Installed at deploy time as Helm charts and container images from upstream registries. Not redistributed by this repository. |
+
+If you fork this repo, the MIT License covers only the Terraform code. You remain responsible for complying with each upstream license for anything this stack deploys on your behalf.
+
+This project is **not affiliated with Dynatrace, Microsoft, or AWS**. EasyTrade is a publicly available demo application provided by Dynatrace; this repository simply automates a particular AWS deployment of it.
