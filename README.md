@@ -2,11 +2,15 @@
 
 > A single-file Terraform stack that deploys the Dynatrace **EasyTrade** demo on AWS EKS — backed by a managed **RDS SQL Server**, observable via CloudWatch, and reskinned with a custom CSS overlay served from an nginx sub_filter sidecar. End-to-end reproducible from one `terraform apply`.
 
+[![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-brightgreen.svg)](LICENSE)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/roy-asraf1/TradeStorm/pulls)
 [![Terraform](https://img.shields.io/badge/Terraform-1.5%2B-7B42BC?logo=terraform&logoColor=white)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-us--east--1-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-1.34-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![SQL Server](https://img.shields.io/badge/SQL_Server-2022_Express-CC2927?logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+
+> **TradeStorm is free and open source software.** The Terraform code in this repository is released under the permissive [MIT License](LICENSE) — you are free to use, copy, modify, fork, and redistribute it, including in commercial settings. Contributions and forks are welcome.
 
 ---
 
@@ -561,7 +565,7 @@ Everything lives in **one `main.tf`**. No modules, no remote state, no glue scri
 
 ## License & Attributions
 
-The Terraform code in this repository (`main.tf` and supporting files) is released under the **MIT License** — see [LICENSE](LICENSE).
+**TradeStorm is open source software.** The Terraform code in this repository (`main.tf` and supporting files) is released under the **MIT License** — see [LICENSE](LICENSE). You may use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the code, including for commercial purposes. The only requirement is that the copyright notice and license text remain included in copies or substantial portions of the software.
 
 The MIT grant covers only the IaC authored here. It does **not** extend to anything pulled in at deploy time:
 
